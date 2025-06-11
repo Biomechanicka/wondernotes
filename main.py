@@ -1,23 +1,27 @@
 """Шаг 2. Напишите функцию build_note с аргументами note_text и note_name.
 Она получает название и текст заметки,
 а затем создает текстовый файл с этим названием и текстом."""
+
 import os
 
 
 def build_note(note_name, note_text):
-    file = open("notes/"+note_name+".txt",'w',encoding="utf-8")
+    file = open("notes/" + note_name + ".txt", "w", encoding="utf-8")
     file.write(note_text)
     file.close()
-    print(f"Заметка \"{note_name}\" создана.")
+    print(f'Заметка "{note_name}" создана.')
 
 
-"""Шаг 3. Напишите функцию create_note(). Она запрашивает у пользователя название и текст заметки, 
+"""Шаг 3. flake8Напишите функцию create_note(). 
+Она запрашивает у пользователя название и текст заметки, 
 а затем вызывает функцию build_note(note_text, note_name)."""
+
+
 def create_note():
     while True:
         note_name = input("Введите имя новой заметки: ")
-        if os.path.isfile("notes/"+note_name+".txt"):
-            print(f'File {note_name} already exists.')
+        if os.path.isfile("notes/" + note_name + ".txt"):
+            print(f"File {note_name} already exists.")
         else:
             note_text = input("Введите текст новой заметки: ")
             build_note(note_name, note_text)
@@ -25,26 +29,30 @@ def create_note():
 
 
 """Шаг 4. Напишите функцию, которая выводит заметку по запросу пользователя
-Напишите функцию read_note(). Она запрашивает у пользователя название заметки. 
+Напишите функцию read_note(). Она запрашивает у пользователя название заметки.
 Если файл с таким названием существует, функция считывает содержимое файла и выводит его на экран. 
 Если файла не существует, функция выводит сообщение, что заметка не найдена.
 Для проверки наличия файла используйте функцию os.path.isfile из модуля os. """
+
+
 def read_note():
     while True:
         note_name = input("Введите имя заметки, которую Вы хотите прочесть: ")
         if not os.path.isfile("notes/" + note_name + ".txt"):
             print(f'Нет заметки с именем "{note_name}"')
         else:
-            with open("notes/" + note_name + ".txt", 'r') as f:
+            with open("notes/" + note_name + ".txt", "r") as f:
                 data = f.read()
-                print(f"Вот текст заметки \"{note_name}\":\n", data)
+                print(f'Вот текст заметки "{note_name}":\n', data)
                 break
+
 
 """Шаг 5. Напишите функцию, которая редактирует заметку
 Напишите функцию edit_note(). Она запрашивает у пользователя название заметки. 
 Если файл с введенным именем существует, функция считывает и выводит содержимое файла, 
 запрашивает у пользователя новый текст заметки и обновляет содержимое файла. 
 Если файла не существует, она выводит сообщение, что заметка не найдена."""
+
 
 def edit_note():
     while True:
@@ -53,9 +61,9 @@ def edit_note():
             print(f'Нет заметки с именем "{note_name}"')
         else:
             note_new_text = input("Введите новый текст заметки: ")
-            with open("notes/" + note_name + ".txt", 'w') as f:
+            with open("notes/" + note_name + ".txt", "w") as f:
                 data = f.write(note_new_text)
-                print(f"Заметка \"{note_name}\" обновлена")
+                print(f'Заметка "{note_name}" обновлена')
                 break
 
 
@@ -64,13 +72,15 @@ def edit_note():
 Если файл с введенным именем существует, функция удаляет файл. 
 Если файла не существует, она выводит сообщение, что заметка не найдена.
 Чтобы удалить файл, используйте функцию os.remove из модуля os."""
+
+
 def delete_note():
-        note_name = input("Введите имя заметки, которую Вы хотите удалить: ")
-        if not os.path.isfile("notes/" + note_name + ".txt"):
-            print(f'Нет заметки с именем "{note_name}"')
-        else:
-            os.remove("notes/" + note_name + ".txt")
-            print(f'Заметка "{note_name}" удалена')
+    note_name = input("Введите имя заметки, которую Вы хотите удалить: ")
+    if not os.path.isfile("notes/" + note_name + ".txt"):
+        print(f'Нет заметки с именем "{note_name}"')
+    else:
+        os.remove("notes/" + note_name + ".txt")
+        print(f'Заметка "{note_name}" удалена')
 
 
 """Шаг 8. Напишите функцию, которая выводит все заметки пользователя
@@ -86,28 +96,33 @@ notes = [note for note in os.listdir("notes/") if note.endswith(".txt")]
 
 4. добавить входной параметр, чтобы пользорватель мог выбрать порядок сортировки - сначала длинные или сначала короткие"""
 
-def display_notes(reverse_flag = True):
+
+def display_notes(reverse_flag=True):
     notes = [note for note in os.listdir("Notes/") if note.endswith(".txt")]
-# узнать длину каждой заметки
+    # узнать длину каждой заметки
     len_notes = {}
     for note in notes:
-        with open("notes/" + note, 'r') as f:
+        with open("notes/" + note, "r") as f:
             data = f.read()
             len_notes[note] = len(data)
-# отсортировать по длине заметки
+    # отсортировать по длине заметки
     for note in sorted(len_notes, key=len_notes.get, reverse=reverse_flag):
-        with open("notes/" + note, 'r') as f:
+        with open("notes/" + note, "r") as f:
             data = f.read()
-            print(f"Вот текст заметки \"{note}\":\n",data,"\n\n")
+            print(f'Вот текст заметки "{note}":\n', data, "\n\n")
+
 
 """Шаг 7. Напишите функцию, которая управляет работой приложения
 Напишите функцию main(). Она содержит основной цикл программы. 
 Функция отображает меню с вариантами действий с заметками, которые пользователь может выбрать. 
 Затем функция выполняет действие, которое выбрал пользователь."""
+
+
 def main():
     # вывод меню
     while True:
-        print("""
+        print(
+            """
         Вот что ты можешь сделать:
         1. Создать заметку
         2. Посмотреть заметку
@@ -116,9 +131,10 @@ def main():
         5. Посмотреть все заметки, сначала длинные потомм короткие
         6. Удалить заметку
         7. Выйти из программы
-        """)
+        """
+        )
         action = input("Выбери действие: ")
-        if action == "7" :
+        if action == "7":
             print("Пока!")
             break
         if action == "1":
